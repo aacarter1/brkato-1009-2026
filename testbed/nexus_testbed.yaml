@@ -1,0 +1,85 @@
+# Example testbed for NX-OS BGP health checks.
+# Set credentials via environment variables or a secrets file; do not commit real passwords.
+testbed:
+  name: nexus_bgp_lab
+
+devices:
+  nxos-spine-1:
+    os: nxos
+    type: switch
+    platform: n9k
+    credentials:
+      default:
+        username: "%ENV{PYATS_USERNAME}%"
+        password: "%ENV{PYATS_PASSWORD}%"
+    connections:
+      cli:
+        protocol: ssh
+        ip: 198.18.134.101
+        port: 22
+        arguments:
+          connection_timeout: 360
+
+  nxos-spine-2:
+    os: nxos
+    type: switch
+    platform: n9k
+    credentials:
+      default:
+        username: "%ENV{PYATS_USERNAME}%"
+        password: "%ENV{PYATS_PASSWORD}%"
+    connections:
+      cli:
+        protocol: ssh
+        ip: 198.18.134.102
+        port: 22
+        arguments:
+          connection_timeout: 360
+
+  nxos-leaf-1:
+    os: nxos
+    type: switch
+    platform: n9k
+    credentials:
+      default:
+        username: "%ENV{PYATS_USERNAME}%"
+        password: "%ENV{PYATS_PASSWORD}%"
+    connections:
+      cli:
+        protocol: ssh
+        ip: 198.18.134.103
+        port: 22
+        arguments:
+          connection_timeout: 360
+
+  nxos-leaf-2:
+    os: nxos
+    type: switch
+    platform: n9k
+    credentials:
+      default:
+        username: "%ENV{PYATS_USERNAME}%"
+        password: "%ENV{PYATS_PASSWORD}%"
+    connections:
+      cli:
+        protocol: ssh
+        ip: 198.18.134.104
+        port: 22
+        arguments:
+          connection_timeout: 360
+
+  nxos-borderleaf-1:
+    os: nxos
+    type: switch
+    platform: n9k
+    credentials:
+      default:
+        username: "%ENV{PYATS_USERNAME}%"
+        password: "%ENV{PYATS_PASSWORD}%"
+    connections:
+      cli:
+        protocol: ssh
+        ip: 198.18.134.105
+        port: 22
+        arguments:
+          connection_timeout: 360

@@ -1,0 +1,120 @@
+# Multi-Platform Testbed Template
+# Copy this file and customize for your environment.
+# Credentials use %ENV{} to read from environment variables — never hardcode passwords.
+#
+# Set these environment variables before running tests:
+#   export PYATS_USERNAME=your_username
+#   export PYATS_PASSWORD=your_password
+#   export PYATS_AUTH_PASS=your_enable_password
+
+testbed:
+  name: multi-platform-lab
+  credentials:
+    default:
+      username: "%ENV{PYATS_USERNAME}"
+      password: "%ENV{PYATS_PASSWORD}"
+    enable:
+      password: "%ENV{PYATS_AUTH_PASS}"
+
+devices:
+
+  # --- NX-OS Device Example ---
+  nxos-spine-1:
+    os: nxos
+    type: router
+    alias: spine_1
+    connections:
+      cli:
+        protocol: ssh
+        ip: 198.18.134.101
+        port: 22
+
+  nxos-spine-2:
+    os: nxos
+    type: router
+    alias: spine_2
+    connections:
+      cli:
+        protocol: ssh
+        ip: 198.18.134.102
+        port: 22
+
+  # --- IOS-XE Device Example (CLI + NETCONF + RESTCONF) ---
+  iosxe-router-1:
+    os: iosxe
+    type: router
+    alias: wan_router_1
+    connections:
+      cli:
+        protocol: ssh
+        ip: 198.18.134.201
+        port: 22
+      netconf:
+        class: unicon.Unicon
+        protocol: netconf
+        ip: 198.18.134.201
+        port: 830
+      rest:
+        class: rest.connector.Rest
+        ip: 198.18.134.201
+        port: 443
+        protocol: https
+        credentials:
+          rest:
+            username: "%ENV{PYATS_USERNAME}"
+            password: "%ENV{PYATS_PASSWORD}"
+
+  iosxe-switch-1:
+    os: iosxe
+    type: switch
+    alias: access_switch_1
+    connections:
+      cli:
+        protocol: ssh
+        ip: 198.18.134.202
+        port: 22
+
+  # --- IOS-XR Device Example ---
+  iosxr-pe-1:
+    os: iosxr
+    type: router
+    alias: pe_router_1
+    connections:
+      cli:
+        protocol: ssh
+        ip: 198.18.134.301
+        port: 22
+
+  iosxr-pe-2:
+    os: iosxr
+    type: router
+    alias: pe_router_2
+    connections:
+      cli:
+        protocol: ssh
+        ip: 198.18.134.302
+        port: 22
+
+topology:
+  # Optional: Define links between devices for topology-aware testing
+  links:
+    spine1-to-pe1:
+      interfaces:
+        nxos-spine-1:
+          interface: Ethernet1/1
+        iosxr-pe-1:
+          interface: GigabitEthernet0/0/0/0
+
+    spine2-to-pe2:
+      interfaces:
+        nxos-spine-2:
+          interface: Ethernet1/1
+        iosxr-pe-2:
+          interface: GigabitEthernet0/0/0/0
+
+    wan-to-spine1:
+      interfaces:
+        iosxe-router-1:
+          interface: GigabitEthernet0/0/0
+        nxos-spine-1:
+          interface: Ethernet1/49

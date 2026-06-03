@@ -1,0 +1,2 @@
+pyats[full]>=24.0
+genie.libs>=24.0
